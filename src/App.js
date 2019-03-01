@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AddRemove from './components/AddRemove';
+import Summary from './components/Summary';
 
 class App extends Component {
-  render() {
+  constructor(props) {
+		super(props);
+
+		this.state = {
+			value: 0
+		};
+		
+		this.handleChange = this.handleChange.bind(this);
+	}
+	
+	handleChange = (event, value) => {
+    this.setState({ value });
+  };
+	
+	render() {
+		const { value } = this.state;
+			
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+				<AppBar position="static">
+          <Tabs value={value} onChange={this.handleChange}>
+            <Tab label="Add / Remove" />
+            <Tab label="Summary" />
+          </Tabs>
+        </AppBar>
+        {value === 0 && <AddRemove />}
+        {value === 1 && <Summary />}
       </div>
     );
   }
