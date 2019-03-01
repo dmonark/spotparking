@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { apiCall } from './../utils/network';
-
+import moment from 'moment';
 export default class Summary extends Component {
 	constructor(props) {
 		super(props);
@@ -86,7 +86,7 @@ export default class Summary extends Component {
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell>ID</TableCell>
+									<TableCell></TableCell>
 									<TableCell align="right">
 										<FormControl>
 											<TextField
@@ -134,7 +134,7 @@ export default class Summary extends Component {
 											</Select>
 										</FormControl>
 									</TableCell>
-									<TableCell align="right">In Time</TableCell>
+									<TableCell align="right"></TableCell>
 									<TableCell align="right">
 										<FormControl>
 											<InputLabel htmlFor="type-helper">Type</InputLabel>
@@ -151,6 +151,14 @@ export default class Summary extends Component {
 										</FormControl>
 									</TableCell>
 								</TableRow>
+								<TableRow>
+									<TableCell>ID</TableCell>
+									<TableCell align="right">Spot</TableCell>
+									<TableCell align="right">Plate Number</TableCell>
+									<TableCell align="right">Color</TableCell>
+									<TableCell align="right">In Time</TableCell>
+									<TableCell align="right">Out Time</TableCell>
+								</TableRow>
 							</TableHead>
 							<TableBody>
 								{rows.map(row => (
@@ -159,8 +167,8 @@ export default class Summary extends Component {
 										<TableCell align="right">{row.spot}</TableCell>
 										<TableCell align="right">{row.plate}</TableCell>
 										<TableCell align="right">{row.color}</TableCell>
-										<TableCell align="right">{row.createdAt}</TableCell>
-										<TableCell align="right">{row.outAt? row.updatedAt : ""}</TableCell>
+										<TableCell align="right">{moment(row.createdAt).format('lll')}</TableCell>
+										<TableCell align="right">{row.outAt? moment(row.updatedAt).format('lll') : ""}</TableCell>
 									</TableRow>
 								))}
 							</TableBody>

@@ -1,12 +1,5 @@
-export function getCall(url, successCallback, errorCallback){
-  const BASE_URL = "http://localhost:8000/api"
-	fetch(BASE_URL + url)
-  .then(res => res.json())
-  .then((data) => successCallback(data))
-  .catch((error) => errorCallback(error))
-}
 export function apiCall(method, url, data, successCallback, errorCallback){
-  const BASE_URL = "http://localhost:8000/api"
+  const BASE_URL = "https://spotparking-api.herokuapp.com/api"
 	fetch(BASE_URL + url, {
 			method: method,
 			mode: "cors", // no-cors, cors, *same-origin
