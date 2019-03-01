@@ -17,7 +17,7 @@ export default class AddRemove extends Component {
 		super(props);
 
 		this.state = {
-			plate: "MH-02-AB-1234",
+			plate: "",
 			color: "white",
 			spotTicket: {},
 			isFetching: false,
@@ -58,13 +58,19 @@ export default class AddRemove extends Component {
 			})
 		}.bind(this)
 		
+		var plateRegEx = /(([A-Za-z]){2}(-)(?:[0-9]){1,2}(-)(?:[A-Za-z]){2}(-)([0-9]){1,4})/g 
 		if(this.state.plate.trim() === ""){
+			this.setState({
+				isPlateError: true
+			})
+		} else if(!plateRegEx.test(this.state.plate.trim())){
 			this.setState({
 				isPlateError: true
 			})
 		} else {
 			this.setState({
-				isFetching: true
+				isFetching: true,
+				isPlateError: false
 			})
 			var sendData = {
 				'plate': this.state.plate,

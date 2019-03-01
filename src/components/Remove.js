@@ -32,10 +32,12 @@ export default class AddRemove extends Component {
 	
 	setFree(){
 		var successFree = function(data){
+			console.log('okay')
 			this.setState({
 				isFetching: false,
 				isSuccess: true,
 				isError: false,
+				spot: ""
 			})
 		}.bind(this)
 		
@@ -44,6 +46,7 @@ export default class AddRemove extends Component {
 				isFetching: false,
 				isSuccess: false,
 				isError: true,
+				spot: ""
 			})
 		}.bind(this)
 		
@@ -57,12 +60,13 @@ export default class AddRemove extends Component {
 			})
 		} else {
 			this.setState({
-				isFetching: true
+				isFetching: true,
+				isSpotError: false
 			})
 			var sendData = {
 				'spot': this.state.spot
 			}
-			apiCall('DELETE', '/parkings', sendData, successFree, errorFree)
+			apiCall('POST', '/parkings/remove', sendData, successFree, errorFree)
 		}
 	}
 	

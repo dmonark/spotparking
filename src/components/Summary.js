@@ -12,8 +12,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import { apiCall } from './../utils/network';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
+import { apiCall } from './../utils/network';
+
 export default class Summary extends Component {
 	constructor(props) {
 		super(props);
@@ -24,9 +27,10 @@ export default class Summary extends Component {
 			plate: '',
 			spot: '',
 			type: '0',
-			isFetching: false
+			isFetching: true
 		};
 		this.getDetails = this.getDetails.bind(this)
+		this.getReset = this.getReset.bind(this)
 	}
 	
 	componentDidMount(){
@@ -77,16 +81,34 @@ export default class Summary extends Component {
 		apiCall('POST', '/parkings/summary', sendData, successSummary, errorSummary)
 	}
 	
+	getReset(){
+		this.setState({
+			rows: [],
+			color: 'all',
+			plate: '',
+			spot: '',
+			type: '0',
+			isFetching: true
+		}, () => {
+			this.getDetails()
+		})
+	}
+	
 	render() {
 		const {rows} = this.state
+
     return (
-      <div className="container">
+      <div>
 				<Card>
 					<CardContent>
 						<Table>
 							<TableHead>
 								<TableRow>
-									<TableCell></TableCell>
+									<TableCell>
+										<Typography gutterBottom variant="h5" component="h2">
+											FILTER
+										</Typography>
+									</TableCell>
 									<TableCell align="right">
 										<FormControl>
 											<TextField
@@ -134,7 +156,6 @@ export default class Summary extends Component {
 											</Select>
 										</FormControl>
 									</TableCell>
-									<TableCell align="right"></TableCell>
 									<TableCell align="right">
 										<FormControl>
 											<InputLabel htmlFor="type-helper">Type</InputLabel>
@@ -150,6 +171,13 @@ export default class Summary extends Component {
 											</Select>
 										</FormControl>
 									</TableCell>
+									<TableCell>
+										<FormControl>
+											<Button variant="contained" color="primary" onClick={this.getReset}>
+												Reset
+											</Button>
+										</FormControl>
+									</TableCell>
 								</TableRow>
 								<TableRow>
 									<TableCell>ID</TableCell>
@@ -160,18 +188,22 @@ export default class Summary extends Component {
 									<TableCell align="right">Out Time</TableCell>
 								</TableRow>
 							</TableHead>
-							<TableBody>
-								{rows.map(row => (
-									<TableRow key={row.id}>
-										<TableCell component="th" scope="row">{row.id}</TableCell>
-										<TableCell align="right">{row.spot}</TableCell>
-										<TableCell align="right">{row.plate}</TableCell>
-										<TableCell align="right">{row.color}</TableCell>
-										<TableCell align="right">{moment(row.createdAt).format('lll')}</TableCell>
-										<TableCell align="right">{row.outAt? moment(row.updatedAt).format('lll') : ""}</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
+							{
+								!this.state.isFetching ? (
+									<TableBody>
+										{rows.map(row => (
+											<TableRow key={row.id}>
+												<TableCell component="th" scope="row">{row.id}</TableCell>
+												<TableCell align="right">{row.spot}</TableCell>
+												<TableCell align="right">{row.plate}</TableCell>
+												<TableCell align="right">{row.color}</TableCell>
+												<TableCell align="right">{moment(row.createdAt).format('lll')}</TableCell>
+												<TableCell align="right">{row.outAt? moment(row.updatedAt).format('lll') : ""}</TableCell>
+											</TableRow>
+										))}
+									</TableBody>
+								) : null
+							}
 						</Table>
 					</CardContent>
 				</Card>

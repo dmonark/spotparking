@@ -1,5 +1,6 @@
 export function apiCall(method, url, data, successCallback, errorCallback){
-  const BASE_URL = "https://spotparking-api.herokuapp.com/api"
+  var status = null
+	const BASE_URL = "http://localhost:8000/api"
 	fetch(BASE_URL + url, {
 			method: method,
 			mode: "cors", // no-cors, cors, *same-origin
@@ -12,7 +13,15 @@ export function apiCall(method, url, data, successCallback, errorCallback){
 			body: JSON.stringify(data)
 		}
 	)
-  .then(res => res.json())
-  .then((res) => successCallback(res))
+  .then((response) => {
+		status = response.status;
+		return response.json()	
+	})
+  .then((response) => {
+		if(status === 200)
+			successCallback(response)
+		else
+			errorCallback(response)
+	})
   .catch((error) => errorCallback(error))
 }

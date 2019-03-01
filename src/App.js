@@ -1,38 +1,36 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AddRemove from './components/AddRemove';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Add from './components/Add';
+import Remove from './components/Remove';
 import Summary from './components/Summary';
+import Grid from '@material-ui/core/Grid';
 
 class App extends Component {
-  constructor(props) {
-		super(props);
-
-		this.state = {
-			value: 0
-		};
-		
-		this.handleChange = this.handleChange.bind(this);
-	}
-	
-	handleChange = (event, value) => {
-    this.setState({ value });
-  };
-	
-	render() {
-		const { value } = this.state;
-			
+  render() {		
     return (
       <div className="App">
 				<AppBar position="static">
-          <Tabs value={value} onChange={this.handleChange}>
-            <Tab label="Add / Remove" />
-            <Tab label="Summary" />
-          </Tabs>
+          <Toolbar variant="dense">
+						<Typography variant="h6" color="inherit">
+							Spot Parking
+						</Typography>
+					</Toolbar>
         </AppBar>
-        {value === 0 && <AddRemove />}
-        {value === 1 && <Summary />}
+				<div className="container">
+        <Grid container spacing={24}>
+					<Grid item xs={6}>
+						<Add />
+					</Grid>
+					<Grid item xs={6}>
+						<Remove />
+					</Grid>
+					<Grid item xs={12}>
+						<Summary />
+					</Grid>
+				</Grid>
+				</div>
       </div>
     );
   }
