@@ -191,9 +191,9 @@ export default class Summary extends Component {
 							{
 								!this.state.isFetching ? (
 									<TableBody>
-										{rows.map(row => (
+										{rows.map((row, index) => (
 											<TableRow key={row.id}>
-												<TableCell component="th" scope="row">{row.id}</TableCell>
+												<TableCell component="th" scope="row">{index + 1}</TableCell>
 												<TableCell align="right">{row.spot}</TableCell>
 												<TableCell align="right">{row.plate}</TableCell>
 												<TableCell align="right">{row.color}</TableCell>
